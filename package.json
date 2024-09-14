@@ -5,10 +5,10 @@
   "repository": "https://github.com/kne6379/resume-platform.git",
   "author": "NohSiHeon <shtlgjs016@naver.com>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "start": "node dist/app.js",
-    "build": "tsc -p .",
-    "start:dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/app.ts"
+    "start": "node src/app.js",
+    "start:dev": "nodemon src/app.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
