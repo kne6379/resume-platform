@@ -4,6 +4,10 @@ import "dotenv/config";
 const app = express(); // express 생성
 const SERVER_PORT = process.env.SERVER_PORT; // 환경 변수에서 포트 번호 가져오기
 
+// json, url 파싱
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Health Check
 app.get("/health-check", (req, res) => {
   res.status(200).send("OK");
