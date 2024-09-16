@@ -1,5 +1,6 @@
 import express from "express";
 import "dotenv/config";
+import { apiRouter } from "./router";
 
 const app = express(); // express 생성
 const SERVER_PORT = process.env.SERVER_PORT; // 환경 변수에서 포트 번호 가져오기
@@ -12,6 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/health-check", (req, res) => {
   res.status(200).send("OK");
 });
+
+app.use("/", apiRouter);
 
 // 서버 시작
 app.listen(SERVER_PORT, () => {
