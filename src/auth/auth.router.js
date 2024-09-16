@@ -3,11 +3,11 @@ import { AuthController } from "./auth.controller.js";
 import { AuthService } from "./auth.service.js";
 import { prisma } from "../configs/prismaClient.js";
 
+const authRouter = express.Router();
 const authService = new AuthService(prisma);
 const authController = new AuthController(authService);
 
-const authRouter = express.Router();
-
-authRouter.use("/", authController);
+authRouter.post("/sign-up", authController.signUp);
+authRouter.post("/sign-in", authController.signIn);
 
 export { authRouter };

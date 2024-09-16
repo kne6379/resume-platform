@@ -16,9 +16,10 @@ datasource db {
 model User {
   id         Int      @id @default(autoincrement())
   email      String   @unique
+  password   String
   name       String
   provider   Provider @default(LOCAL)
-  profileUrl String   @map("profile_url")
+  profileUrl String?  @map("profile_url")
   role       Role     @default(APPLICANT)
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
