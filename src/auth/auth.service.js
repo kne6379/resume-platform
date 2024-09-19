@@ -1,5 +1,6 @@
 import { HttpError } from "../error/http-error.js";
 import { Messages } from "../constants/message.constants.js";
+import bcrypt from "bcrypt";
 
 class AuthService {
 	constructor(prisma) {
@@ -25,12 +26,15 @@ class AuthService {
 		if (password !== passwordConfirm) {
 			throw new HttpError.BadRequest(Messages.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD);
 		}
-
-		return await this.prisma.user.create({
+		const hashRounds = +process.env.HASH_ROUNDS;
+		const hashedPassword = await bcrypt.hash(password, hashRounds);
+		const user = await this.prisma.user.create({
 			data: {
-				email, password, name, profileUrl
+				email, password: hashedPassword, name, profileUrl
 			}
 		});
+		user.password = undefined;
+		return user;
 	}
 
 	// 로그인

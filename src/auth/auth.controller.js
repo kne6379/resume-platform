@@ -10,8 +10,6 @@ class AuthController {
 
 			const data = await this.authService.signUp(userInfo);
 
-			data.password = undefined;
-
 			return res.status(201).json({
 				status: 201,
 				message: '회원가입에 성공했습니다.',
