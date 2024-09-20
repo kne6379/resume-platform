@@ -16,22 +16,29 @@ class AuthController {
 				data: data,
 			});
 		} catch (error) {
-			return res.status(500).json({ error: error.message })
+			return res.status(500).json({ error: error.message });
 		}
 	}
 
 	// 로그인
 	signIn = async (req, res, next) => {
-		const userInfo = req.body;
+		try {
 
-		const data = await this.authService.signIn(userInfo);
+			const userInfo = req.body;
 
-		return res.status(201).json({
-			status: 201,
-			message: '로그인에 성공했습니다.',
-			data: data,
-		});
+			const data = await this.authService.signIn(userInfo);
+			req.session.userId = data;
+
+			return res.status(201).json({
+				status: 201,
+				message: '로그인에 성공했습니다.',
+				data: true,
+			});
+		} catch (error) {
+			return res.status(500).json({ error: error.message });
+		}
 	}
+
 }
 
 export { AuthController };

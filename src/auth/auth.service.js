@@ -41,21 +41,27 @@ class AuthService {
 	async signIn(userInfo) {
 		const { email, password } = userInfo;
 
+		// 이메일에 해당하는 가입 정보가 있는지 조회
 		const user = await this.prisma.user.findUnique({
 			where: {
 				email: email
 			}
 		});
 
+		// 가입된 이메일이 아닐 경우 예외 처리
 		if (!user) {
 			throw new HttpError.NotFound(Messages.USERS.NOT_FOUND);
 		}
 
-		if (password !== user.password) {
+		// 입력한 평문 비밀번호와 암호화된 user의 비밀번호가 같은지 비교
+		const isMatchedPassword = await bcrypt.compare(password, user.password);
+
+		// 비밀번호가 같지 않을 경우 예외 처리
+		if (!isMatchedPassword) {
 			throw new HttpError.BadRequest(Messages.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD);
 		}
 
-		return true;
+		return user.id;
 	}
 }
 
