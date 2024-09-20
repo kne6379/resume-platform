@@ -8,6 +8,6 @@ const resumeController = new ResumeController(resumeService);
 
 const resumeRouter = express.Router();
 
-// resumeRouter.use("/", resumeController);
+resumeRouter.post("/", resumeController.createResume);
 
 export { resumeRouter };
