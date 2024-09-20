@@ -4,7 +4,7 @@ import { HttpError } from "../error/http-error.js";
 
 async function authenticateMiddleware(req, res, next) {
 	try {
-		const { userId } = req.session;
+		const userId = req.session.userId;
 		if (!userId) {
 			throw new HttpError.BadRequest(Messages.AUTH.COMMON.JWT.NO_TOKEN);
 		}

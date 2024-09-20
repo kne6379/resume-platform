@@ -9,6 +9,6 @@ const authService = new AuthService(prisma);
 const authController = new AuthController(authService);
 
 authRouter.post("/sign-up", authController.signUp);
-authRouter.post("/sign-in", authenticateMiddleware, authController.signIn);
+authRouter.post("/sign-in", authController.signIn);
 
 export { authRouter };
