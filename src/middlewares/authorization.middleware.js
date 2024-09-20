@@ -12,7 +12,7 @@ const authorizationMiddleware = (roles) => {
       }
 
       next();
-    } catch (err) {}
+    } catch (error) {}
   };
 };
 

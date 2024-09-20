@@ -20,14 +20,16 @@ class ResumeService {
     });
   };
 
-  getResumeById = async (resumeId) => {
+  getResumeById = async (resumeId, userId) => {
     const data = await this.prisma.resume.findUnique({
-      where: { id: resumeId },
+      where: { id: resumeId, userId },
     });
 
     if (!data) {
       throw new HttpError.NotFound(Messages.RESUMES.NOT_FOUND);
     }
+
+    return data;
   };
 
   updateResume = async (resumeId, userId, title, bio) => {

@@ -39,8 +39,9 @@ class ResumeController {
 
   getResumeById = async (req, res, next) => {
     try {
+      const { userId } = req.body;
       const resumeId = +req.params.id;
-      const data = await this.resumeService.getResumeById(resumeId);
+      const data = await this.resumeService.getResumeById(resumeId, userId);
 
       return sucessResponse(
         res,
