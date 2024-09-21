@@ -7,12 +7,9 @@ class UserController {
 	// 내 정보 조회
 
 	getMe = async (req, res, next) => {
-
 		try {
 
-			// 미들웨어 만들면 이어서 구현
-
-			const { id } = req.body;
+			const id = req.user.id;
 			const data = await this.userService.getMe(+id);
 
 			return res.status(200).json({
@@ -30,8 +27,8 @@ class UserController {
 	updateMe = async (req, res, next) => {
 
 		try {
-			// 미들웨어 만들면 이어서 구현
-			const { id } = req.body;
+
+			const id = req.user.id;
 			const { name, profileUrl } = req.body;
 			const data = await this.userService.updateMe(+id, name, profileUrl);
 
@@ -48,7 +45,7 @@ class UserController {
 	// 패스워드 수정
 	updatePassword = async (req, res, next) => {
 		try {
-			const { id } = req.body;
+			const id = req.user.id;
 			const { password, newPassword, newPasswordConfirm } = req.body;
 
 			const data = await this.userService.updatePassword(+id, password, newPassword, newPasswordConfirm);

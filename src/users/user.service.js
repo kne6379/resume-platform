@@ -40,8 +40,11 @@ class UserService {
 			data: {
 				name, profileUrl
 			},
+			omit: {
+				password: true
+			}
 		});
-		updatedUser.password = undefined;
+
 
 		return updatedUser;
 	}
