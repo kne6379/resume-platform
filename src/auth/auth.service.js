@@ -1,5 +1,5 @@
 import { HttpError } from "../error/http-error.js";
-import { Messages } from "../constants/message.constants.js";
+import { MESSAGES } from "../constants/message.constants.js";
 
 class AuthService {
   constructor(prisma) {
@@ -18,13 +18,13 @@ class AuthService {
 
     // 중복일 경우 예외 처리
     if (existedEmail) {
-      throw new HttpError.Conflict(Messages.AUTH.COMMON.EMAIL.DUPLICATED);
+      throw new HttpError.Conflict(MESSAGES.AUTH.COMMON.EMAIL.DUPLICATED);
     }
 
     // 패스워드와 패스워드 확인이 같을 경우 예외 처리
     if (password !== passwordConfirm) {
       throw new HttpError.BadRequest(
-        Messages.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD
+        MESSAGES.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD
       );
     }
 
@@ -49,12 +49,12 @@ class AuthService {
     });
 
     if (!user) {
-      throw new HttpError.NotFound(Messages.USERS.NOT_FOUND);
+      throw new HttpError.NotFound(MESSAGES.USERS.NOT_FOUND);
     }
 
     if (password !== user.password) {
       throw new HttpError.BadRequest(
-        Messages.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD
+        MESSAGES.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD
       );
     }
 

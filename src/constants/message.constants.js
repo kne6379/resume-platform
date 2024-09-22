@@ -1,6 +1,6 @@
 const MIN_PASSWORD_LENGTH = 8;
 
-const Messages = {
+const MESSAGES = {
   AUTH: {
     COMMON: {
       EMAIL: {
@@ -79,4 +79,4 @@ const Messages = {
   },
 };
 
-export { Messages };
+export { MESSAGES };

@@ -1,5 +1,5 @@
 import { HTTP_STATUS } from "../constants/http-status.constants.js";
-import { Messages } from "../constants/message.constants.js";
+import { MESSAGES } from "../constants/message.constants.js";
 import { sucessResponse } from "../utils/response-helper.js";
 
 class AuthController {
@@ -18,7 +18,7 @@ class AuthController {
       return sucessResponse(
         res,
         HTTP_STATUS.CREATED,
-        Messages.AUTH.SIGN_UP.SUCCEED,
+        MESSAGES.AUTH.SIGN_UP.SUCCEED,
         data
       );
     } catch (error) {

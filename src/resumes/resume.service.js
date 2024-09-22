@@ -1,5 +1,5 @@
 import { prisma } from "../configs/prisma-client.js";
-import { Messages } from "../constants/message.constants.js";
+import { MESSAGES } from "../constants/message.constants.js";
 import { HttpError } from "../error/http-error.js";
 
 class ResumeService {
@@ -26,7 +26,7 @@ class ResumeService {
     });
 
     if (!data) {
-      throw new HttpError.NotFound(Messages.RESUMES.NOT_FOUND);
+      throw new HttpError.NotFound(MESSAGES.RESUMES.NOT_FOUND);
     }
 
     return data;
@@ -57,7 +57,7 @@ class ResumeService {
     });
 
     if (!existingResume) {
-      throw new HttpError.NotFound(Messages.RESUMES.USER_NOT_FOUND);
+      throw new HttpError.NotFound(MESSAGES.RESUMES.USER_NOT_FOUND);
     }
   };
 }

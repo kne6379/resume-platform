@@ -1,5 +1,5 @@
 import { HTTP_STATUS } from "../constants/http-status.constants.js";
-import { Messages } from "../constants/message.constants.js";
+import { MESSAGES } from "../constants/message.constants.js";
 import { sucessResponse } from "../utils/response-helper.js";
 
 class ResumeController {
@@ -11,12 +11,12 @@ class ResumeController {
       const { userId, title, bio } = req.body;
       const data = await this.resumeService.createResume(userId, title, bio);
 
-      return sucessResponse(
+      return sucessResponse({
         res,
-        HTTP_STATUS.CREATED,
-        Messages.RESUMES.CREATED.SUCCEED,
-        data
-      );
+        status: HTTP_STATUS.CREATED,
+        message: MESSAGES.RESUMES.CREATED.SUCCEED,
+        data,
+      });
     } catch (error) {
       res.json({ error });
     }
@@ -26,12 +26,12 @@ class ResumeController {
     try {
       const { userId } = req.body;
       const data = await this.resumeService.getResumes(userId);
-      return sucessResponse(
+
+      return sucessResponse({
         res,
-        HTTP_STATUS.OK,
-        Messages.RESUMES.READ_LIST.SUCCEED,
-        data
-      );
+        message: MESSAGES.RESUMES.READ_LIST.SUCCEED,
+        data,
+      });
     } catch (error) {
       res.json({ error });
     }
@@ -43,12 +43,11 @@ class ResumeController {
       const resumeId = +req.params.id;
       const data = await this.resumeService.getResumeById(resumeId, userId);
 
-      return sucessResponse(
+      return sucessResponse({
         res,
-        HTTP_STATUS.OK,
-        Messages.RESUMES.READ_DETAIL.SUCCEED,
-        data
-      );
+        message: MESSAGES.RESUMES.READ_DETAIL.SUCCEED,
+        data,
+      });
     } catch (error) {
       res.json({ error });
     }
@@ -65,12 +64,11 @@ class ResumeController {
         bio
       );
 
-      return sucessResponse(
+      return sucessResponse({
         res,
-        HTTP_STATUS.OK,
-        Messages.RESUMES.UPDATE.SUCCEED,
-        data
-      );
+        message: MESSAGES.RESUMES.UPDATE.SUCCEED,
+        data,
+      });
     } catch (error) {
       res.json({ error });
     }
@@ -83,12 +81,10 @@ class ResumeController {
 
       await this.resumeService.deleteResume(resumeId, userId);
 
-      return sucessResponse(
+      return sucessResponse({
         res,
-        HTTP_STATUS.OK,
-        Messages.RESUMES.DELETE.SUCCEED,
-        null
-      );
+        message: MESSAGES.RESUMES.DELETE.SUCCEED,
+      });
     } catch (error) {
       res.json({ error });
     }
