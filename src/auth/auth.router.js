@@ -1,8 +1,7 @@
 import express from "express";
 import { AuthController } from "./auth.controller.js";
 import { AuthService } from "./auth.service.js";
-import { prisma } from "../configs/prismaClient.js";
-import { authenticateMiddleware } from "./authenticate.middleware.js";
+import { prisma } from "../configs/prisma-client.js";
 
 const authRouter = express.Router();
 const authService = new AuthService(prisma);

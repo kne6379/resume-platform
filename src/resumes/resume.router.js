@@ -28,5 +28,4 @@ resumeRouter.patch("/:id/status", resumeController.updateResumeStatus);
 
 // // 이력서 상태 변경 로그 조회
 // resumeRouter.get("/", resumeController.getResumeStatusLogs);
-ç;
 export { resumeRouter };

@@ -1,64 +1,65 @@
 class UserController {
-	constructor(userService) {
-		this.userService = userService;
-	}
+  constructor(userService) {
+    this.userService = userService;
+  }
 
+  // 내 정보 조회
 
-	// 내 정보 조회
+  getMe = async (req, res, next) => {
+    try {
+      const id = req.user.id;
+      const data = await this.userService.getMe(+id);
 
-	getMe = async (req, res, next) => {
-		try {
+      return res.status(200).json({
+        status: 200,
+        message: "내 정보 조회에 성공했습니다.",
+        data: data,
+      });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  };
 
-			const id = req.user.id;
-			const data = await this.userService.getMe(+id);
+  // 내 정보 수정
 
-			return res.status(200).json({
-				status: 200,
-				message: '내 정보 조회에 성공했습니다.',
-				data: data
-			});
-		} catch (error) {
-			return res.status(500).json({ error: error.message });
-		}
-	}
+  updateMe = async (req, res, next) => {
+    try {
+      const id = req.user.id;
+      const { name, profileUrl } = req.body;
+      const data = await this.userService.updateMe(+id, name, profileUrl);
 
-	// 내 정보 수정
+      return res.status(200).json({
+        status: 200,
+        message: "내 정보 수정에 성공했습니다.",
+        data: data,
+      });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  };
 
-	updateMe = async (req, res, next) => {
+  // 패스워드 수정
+  updatePassword = async (req, res, next) => {
+    try {
+      const id = req.user.id;
+      const { password, newPassword, newPasswordConfirm } = req.body;
 
-		try {
+      const data = await this.userService.updatePassword(
+        +id,
+        password,
+        newPassword,
+        newPasswordConfirm
+      );
 
-			const id = req.user.id;
-			const { name, profileUrl } = req.body;
-			const data = await this.userService.updateMe(+id, name, profileUrl);
-
-			return res.status(200).json({
-				status: 200,
-				message: '내 정보 수정에 성공했습니다.',
-				data: data
-			});
-		} catch (error) {
-			return res.status(500).json({ error: error.message });
-		}
-	}
-
-	// 패스워드 수정
-	updatePassword = async (req, res, next) => {
-		try {
-			const id = req.user.id;
-			const { password, newPassword, newPasswordConfirm } = req.body;
-
-			const data = await this.userService.updatePassword(+id, password, newPassword, newPasswordConfirm);
-
-			return res.status(200).json({
-				status: 200,
-				message: '패스워드 수정에 성공했습니다.',
-				data: data
-			});
-		} catch (error) {
-			return res.status(500).json({ error: error.message });
-		}
-	}
+      return res.status(200).json({
+        status: 200,
+        message: "패스워드 수정에 성공했습니다.",
+        data: data,
+      });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  };
 }
 
-export { UserController }
+export { UserController };
