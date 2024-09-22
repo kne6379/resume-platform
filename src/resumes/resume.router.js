@@ -23,10 +23,10 @@ resumeRouter.patch("/:id", resumeController.updateResume);
 // 이력서 삭제
 resumeRouter.delete("/:id", resumeController.deleteResume);
 
-// // 이력서 상태 변경
-// resumeRouter.patch("/", resumeController.updateResumeStatus);
+// 이력서 상태 변경
+resumeRouter.patch("/:id/status", resumeController.updateResumeStatus);
 
 // // 이력서 상태 변경 로그 조회
 // resumeRouter.get("/", resumeController.getResumeStatusLogs);
-
+ç;
 export { resumeRouter };

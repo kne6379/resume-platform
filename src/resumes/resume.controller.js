@@ -89,6 +89,26 @@ class ResumeController {
       res.json({ error });
     }
   };
+
+  updateResumeStatus = async (req, res, next) => {
+    try {
+      const modifier = req.user.name;
+      const resumeId = Number(req.params.id);
+      const { newStatus } = req.body;
+      const data = await this.resumeService.updateResumeStatus(
+        modifier,
+        resumeId,
+        newStatus
+      );
+      return sucessResponse({
+        res,
+        message: MESSAGES.RESUMES.UPDATE,
+        data,
+      });
+    } catch (error) {
+      res.json({ error });
+    }
+  };
 }
 
 export { ResumeController };

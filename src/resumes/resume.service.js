@@ -21,14 +21,7 @@ class ResumeService {
   };
 
   getResumeById = async (resumeId, userId) => {
-    const data = await this.prisma.resume.findUnique({
-      where: { id: resumeId, userId },
-    });
-
-    if (!data) {
-      throw new HttpError.NotFound(MESSAGES.RESUMES.NOT_FOUND);
-    }
-
+    const data = await this.existingResume(resumeId, userId);
     return data;
   };
 
@@ -51,15 +44,41 @@ class ResumeService {
     });
   };
 
+  updateResumeStatus = async (modifier, resumeId, newStatus) => {
+    await this.prisma.$transaction(async (tx) => {
+      const resume = await tx.resume.findUnique({ where: { id: resumeId } });
+
+      if (!resume) {
+        throw new HttpError.NotFound(MESSAGES.RESUMES.COMMON.NOT_FOUND);
+      }
+
+      await tx.resume.update({
+        where: { id: resumeId },
+        data: { status: newStatus },
+      });
+
+      const data = await tx.resumeHistories.create({
+        data: { modifier, resumeId, newStatus, oldStatus: resume.status },
+      });
+
+      return data;
+    });
+  };
+
   existingResume = async (resumeId, userId) => {
     const existingResume = await this.prisma.resume.findUnique({
-      where: { id: resumeId, userId },
+      where: { id: resumeId },
     });
 
     if (!existingResume) {
-      throw new HttpError.NotFound(MESSAGES.RESUMES.USER_NOT_FOUND);
+      throw new HttpError.NotFound(MESSAGES.RESUMES.COMMON.NOT_FOUND);
     }
+
+    if (userId !== existingResume.userId) {
+      throw new HttpError.Forbidden(MESSAGES.RESUMES.COMMON.FORBIDDEN);
+    }
+
+    return existingResume;
   };
 }
-
 export { ResumeService };

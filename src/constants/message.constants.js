@@ -74,8 +74,10 @@ const MESSAGES = {
     DELETE: {
       SUCCEED: "이력서 삭제에 성공했습니다.",
     },
-    NOT_FOUND: "이력서가 존재하지 않거나 접근 권한이 없습니다.",
-    USER_NOT_FOUND: "해당 사용자의 이력서를 찾을 수 없습니다.",
+    COMMON: {
+      NOT_FOUND: "이력서를 찾을 수 없습니다.",
+      FORBIDDEN: "이력서에 대한 접근 권한이 없습니다.",
+    },
   },
 };
 
