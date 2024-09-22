@@ -13,8 +13,6 @@ class AuthController {
 
       const data = await this.authService.signUp(userInfo);
 
-      data.password = undefined;
-
       return sucessResponse(
         res,
         HTTP_STATUS.CREATED,
