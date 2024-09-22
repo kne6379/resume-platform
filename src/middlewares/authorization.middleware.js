@@ -1,4 +1,4 @@
-import { MESSAGES } from "../constants/message.constants.js";
+import { Messages } from "../constants/message.constants.js";
 import { HttpError } from "../error/http-error.js";
 
 const authorizationMiddleware = (roles) => {
@@ -8,7 +8,7 @@ const authorizationMiddleware = (roles) => {
       const hasPermission = user && roles.includes(user.role);
 
       if (!hasPermission) {
-        throw new HttpError.Forbidden(MESSAGES.AUTH.COMMON.FORBIDDEN);
+        throw new HttpError.Forbidden(Messages.AUTH.COMMON.FORBIDDEN);
       }
 
       next();
