@@ -1,4 +1,4 @@
-import { prisma } from "../configs/prismaClient.js";
+import { prisma } from "../configs/prisma-client.js";
 import { Messages } from "../constants/message.constants.js";
 import { HttpError } from "../error/http-error.js";
 

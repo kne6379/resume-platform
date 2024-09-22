@@ -22,7 +22,8 @@ class AuthService {
 			throw new HttpError.Conflict(Messages.AUTH.COMMON.EMAIL.DUPLICATED);
 		}
 
-		// 패스워드와 패스워드 확인이 같을 경우 예외 처리
+
+		// 패스워드와 패스워드 확인이 같지 않을 경우 예외 처리
 		if (password !== passwordConfirm) {
 			throw new HttpError.BadRequest(Messages.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD);
 		}
@@ -48,7 +49,6 @@ class AuthService {
 			}
 		});
 
-		// 가입된 이메일이 아닐 경우 예외 처리
 		if (!user) {
 			throw new HttpError.NotFound(Messages.USERS.NOT_FOUND);
 		}
