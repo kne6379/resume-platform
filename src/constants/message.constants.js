@@ -68,11 +68,17 @@ const MESSAGES = {
     READ_DETAIL: {
       SUCCEED: "이력서 상세 조회에 성공했습니다.",
     },
+    READ_STATUS_LOGS: {
+      SUCCEED: "이력서 상태 로그 조회에 성공했습니다.",
+    },
     UPDATE: {
       SUCCEED: "이력서 수정에 성공했습니다.",
     },
     DELETE: {
       SUCCEED: "이력서 삭제에 성공했습니다.",
+    },
+    LOG_STATUS_UPDATE: {
+      SUCCEED: "이력서 상태 변경 로그가 기록되었습니다.",
     },
     COMMON: {
       NOT_FOUND: "이력서를 찾을 수 없습니다.",

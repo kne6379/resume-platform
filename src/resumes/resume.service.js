@@ -16,7 +16,7 @@ class ResumeService {
   getResumes = async (userId) => {
     return await this.prisma.resume.findMany({
       where: { userId },
-      select: { title: true, updatedAt: true },
+      select: { id: true, title: true, updatedAt: true },
     });
   };
 
@@ -65,6 +65,15 @@ class ResumeService {
     });
   };
 
+  getResumeStatusLogs = async (resumeId) => {
+    const data = await this.prisma.resumeHistories.findMany({
+      where: { resumeId },
+    });
+
+    return data;
+  };
+
+  // 이력서 유무, 해당 유저의 이력서인지 조회하는 메서드
   existingResume = async (resumeId, userId) => {
     const existingResume = await this.prisma.resume.findUnique({
       where: { id: resumeId },
