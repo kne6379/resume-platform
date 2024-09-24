@@ -8,7 +8,8 @@ class ResumeController {
   }
   createResume = async (req, res, next) => {
     try {
-      const { userId, title, bio } = req.body;
+      const userId = req.user.id;
+      const { title, bio } = req.body;
       const data = await this.resumeService.createResume(userId, title, bio);
 
       return sucessResponse({
@@ -24,7 +25,7 @@ class ResumeController {
 
   getResumes = async (req, res, next) => {
     try {
-      const { userId } = req.body;
+      const userId = req.user.id;
       const data = await this.resumeService.getResumes(userId);
 
       return sucessResponse({
@@ -77,7 +78,7 @@ class ResumeController {
   deleteResume = async (req, res, next) => {
     try {
       const resumeId = +req.params.id;
-      const { userId } = req.body;
+      const { userId } = req.user.id;
 
       await this.resumeService.deleteResume(resumeId, userId);
 
@@ -93,7 +94,7 @@ class ResumeController {
   updateResumeStatus = async (req, res, next) => {
     try {
       const modifier = req.user.name;
-      const resumeId = Number(req.params.id);
+      const resumeId = +req.params.id;
       const { newStatus } = req.body;
       const data = await this.resumeService.updateResumeStatus(
         modifier,
@@ -102,7 +103,22 @@ class ResumeController {
       );
       return sucessResponse({
         res,
-        message: MESSAGES.RESUMES.UPDATE,
+        message: MESSAGES.RESUMES.LOGGED_STATUS_CHANGE,
+        data,
+      });
+    } catch (error) {
+      res.json({ error });
+    }
+  };
+
+  getResumeStatusLogs = async (req, res, next) => {
+    try {
+      const resumeId = +req.params.id;
+      const data = await this.resumeService.getResumeStatusLogs(resumeId);
+
+      return sucessResponse({
+        res,
+        message: MESSAGES.RESUMES.READ_STATUS_LOGS,
         data,
       });
     } catch (error) {
