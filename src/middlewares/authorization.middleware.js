@@ -6,13 +6,14 @@ const authorizationMiddleware = (roles) => {
     try {
       const user = req.user;
       const hasPermission = user && roles.includes(user.role);
-
       if (!hasPermission) {
         throw new HttpError.Forbidden(MESSAGES.AUTH.COMMON.FORBIDDEN);
       }
 
       next();
-    } catch (error) {}
+    } catch (error) {
+      res.json({ error });
+    }
   };
 };
 
