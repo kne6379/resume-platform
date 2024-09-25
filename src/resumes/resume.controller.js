@@ -8,7 +8,7 @@ class ResumeController {
 	}
 	createResume = async (req, res, next) => {
 		try {
-			const userId = +req.user.id;
+			const userId = req.user.id;
 			const { title, bio } = req.body;
 			const data = await this.resumeService.createResume(userId, title, bio);
 
@@ -25,7 +25,7 @@ class ResumeController {
 
 	getResumes = async (req, res, next) => {
 		try {
-			const userId = +req.user.id;
+			const userId = req.user.id;
 			const data = await this.resumeService.getResumes(userId);
 
 			return successResponse({
@@ -40,7 +40,7 @@ class ResumeController {
 
 	getResumeById = async (req, res, next) => {
 		try {
-			const userId = +req.user.id;
+			const userId = req.user.id;
 			const resumeId = +req.params.id;
 			const data = await this.resumeService.getResumeById(resumeId, userId);
 
@@ -56,7 +56,7 @@ class ResumeController {
 
 	updateResume = async (req, res, next) => {
 		try {
-			const userId = +req.user.id;
+			const userId = req.user.id;
 			const resumeId = +req.params.id;
 			const { title, bio } = req.body;
 			const data = await this.resumeService.updateResume(
@@ -79,7 +79,7 @@ class ResumeController {
 	deleteResume = async (req, res, next) => {
 		try {
 			const resumeId = +req.params.id;
-			const { userId } = req.user.id;
+			const userId = req.user.id;
 
 			await this.resumeService.deleteResume(resumeId, userId);
 
