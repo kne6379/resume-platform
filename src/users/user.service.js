@@ -1,7 +1,6 @@
 import { MESSAGES } from "../constants/message.constants.js";
-
 import { HttpError } from "../error/http-error.js";
-
+import { hashRounds } from "../constants/env.constants.js";
 import bcrypt from "bcrypt";
 
 class UserService {
@@ -14,19 +13,17 @@ class UserService {
   async getMe(id) {
     // 유저 조회
     const user = await this.findUserById(id);
-    user.password = undefined;
-
     return user;
   }
 
   // 내 정보 수정
   async updateMe(id, name, profileUrl) {
     // 유저 조회
-    const user = await this.findUserById(id);
+    await this.findUserById(id);
 
     const updatedUser = await this.prisma.user.update({
       where: {
-        id: id,
+        id,
       },
       data: {
         name,
@@ -44,7 +41,7 @@ class UserService {
 
   async updatePassword(id, password, newPassword, newPasswordConfirm) {
     // 유저 조회
-    const user = await this.findUserById(id);
+    const user = await this.findUserById(id, false);
 
     // 현재 입력한 패스워드가 맞는지 확인
     const isMatchedPassword = await bcrypt.compare(password, user.password);
@@ -56,7 +53,6 @@ class UserService {
     }
 
     // 변경될 패스워드 만들기
-    const hashRounds = +process.env.HASH_ROUNDS;
     const newHashedPassword = await bcrypt.hash(newPassword, hashRounds);
 
     // 유저의 패스워드 변경
@@ -73,8 +69,9 @@ class UserService {
   }
 
   // 유저 조회
-  async findUserById(id) {
+  async findUserById(id, includePassword = true) {
     const user = await this.prisma.user.findUnique({
+      omit: { password: includePassword },
       where: {
         id,
       },
@@ -83,7 +80,6 @@ class UserService {
     if (!user) {
       throw new HttpError.NotFound("존재하지 않는 유저입니다.");
     }
-
     return user;
   }
 }

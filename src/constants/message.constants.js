@@ -1,4 +1,7 @@
-const MIN_PASSWORD_LENGTH = 8;
+import {
+  MIN_PASSWORD_LENGTH,
+  MAX_PASSWORD_LENGTH,
+} from "../constants/auth.constants.js";
 
 const MESSAGES = {
   AUTH: {
@@ -15,6 +18,7 @@ const MESSAGES = {
       PASSWORD: {
         REQURIED: "비밀번호를 입력해 주세요.",
         MIN_LENGTH: `비밀번호는 ${MIN_PASSWORD_LENGTH}자리 이상이어야 합니다.`,
+        MAX_LENGTH: `비밀번호는 ${MAX_PASSWORD_LENGTH}자리 이상이어야 합니다.`,
       },
       PASSWORD_CONFIRM: {
         REQURIED: "비밀번호 확인을 입력해 주세요.",
