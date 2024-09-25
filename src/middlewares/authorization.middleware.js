@@ -12,7 +12,7 @@ function authorizationMiddleware(roles) {
 
       next();
     } catch (error) {
-      res.json({ error });
+      next(error);
     }
   };
 }

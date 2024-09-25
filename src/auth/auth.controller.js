@@ -1,41 +1,44 @@
+import { sucessResponse } from "../utils/response-helper.js";
+import { MESSAGES } from "../constants/message.constants.js";
+
 class AuthController {
-	constructor(authService) {
-		this.authService = authService;
-	}
-	// 회원가입
-	signUp = async (req, res, next) => {
-		try {
-			const userInfo = req.body;
+  constructor(authService) {
+    this.authService = authService;
+  }
 
-			const data = await this.authService.signUp(userInfo);
+  // 회원가입
+  signUp = async (req, res, next) => {
+    try {
+      const userInfo = req.body;
 
-			return res.status(201).json({
-				status: 201,
-				message: "회원가입에 성공했습니다.",
-				data: data,
-			});
-		} catch (error) {
-			next(error);
-		}
-	};
+      const data = await this.authService.signUp(userInfo);
 
-	// 로그인
-	signIn = async (req, res, next) => {
-		try {
-			const userInfo = req.body;
+      return sucessResponse({
+        res,
+        message: MESSAGES.AUTH.SIGN_UP.SUCCEED,
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 
-			const data = await this.authService.signIn(userInfo);
-			req.session.userId = data;
+  // 로그인
+  signIn = async (req, res, next) => {
+    try {
+      const userInfo = req.body;
 
-			return res.status(201).json({
-				status: 201,
-				message: "로그인에 성공했습니다.",
-				data: true,
-			});
-		} catch (error) {
-			next(error);
-		}
-	};
+      const data = await this.authService.signIn(userInfo);
+      req.session.userId = data;
+
+      return sucessResponse({
+        res,
+        message: MESSAGES.AUTH.SIGN_IN.SUCCEED,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export { AuthController };
