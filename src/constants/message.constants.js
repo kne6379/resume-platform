@@ -56,12 +56,6 @@ const MESSAGES = {
 		READ_ME: {
 			SUCCEED: "내 정보 조회에 성공했습니다.",
 		},
-		UPDATE_ME: {
-			SUCCEED: "내 정보 수정에 성공했습니다."
-		},
-		UPDATE_PASSWORD: {
-			SUCCEED: "패스워드 수정에 성공했습니다."
-		},
 		NOT_FOUND: "존재하지 않는 유저입니다.",
 	},
 	RESUMES: {

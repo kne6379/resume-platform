@@ -13,7 +13,7 @@ class UserController {
 			const id = req.user.id;
 			const data = await this.userService.getMe(+id);
 
-			return sucessResponse({ res, message: MESSAGES.USERS.READ_ME.SUCCEED, data });
+			return successResponse({ res, message: MESSAGES.USERS.READ_ME.SUCCEED, data });
 		} catch (error) {
 			next(error);
 		}
@@ -27,7 +27,7 @@ class UserController {
 			const { name, profileUrl } = req.body;
 			const data = await this.userService.updateMe(+id, name, profileUrl);
 
-			return sucessResponse({ res, message: MESSAGES.USERS.UPDATE_ME.SUCCEED, data });
+			return successResponse({ res, message: MESSAGES.USERS.UPDATE_ME.SUCCEED, data });
 		} catch (error) {
 			next(error);
 		}

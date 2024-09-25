@@ -8,7 +8,7 @@ class ResumeController {
 	}
 	createResume = async (req, res, next) => {
 		try {
-			const userId = req.user.id;
+			const userId = +req.user.id;
 			const { title, bio } = req.body;
 			const data = await this.resumeService.createResume(userId, title, bio);
 
@@ -19,13 +19,13 @@ class ResumeController {
 				data,
 			});
 		} catch (error) {
-			res.json({ error });
+			next(error);
 		}
 	};
 
 	getResumes = async (req, res, next) => {
 		try {
-			const userId = req.user.id;
+			const userId = +req.user.id;
 			const data = await this.resumeService.getResumes(userId);
 
 			return successResponse({
@@ -34,13 +34,13 @@ class ResumeController {
 				data,
 			});
 		} catch (error) {
-			res.json({ error });
+			next(error);
 		}
 	};
 
 	getResumeById = async (req, res, next) => {
 		try {
-			const { userId } = req.body;
+			const userId = +req.user.id;
 			const resumeId = +req.params.id;
 			const data = await this.resumeService.getResumeById(resumeId, userId);
 
@@ -50,14 +50,15 @@ class ResumeController {
 				data,
 			});
 		} catch (error) {
-			res.json({ error });
+			next(error);
 		}
 	};
 
 	updateResume = async (req, res, next) => {
 		try {
+			const userId = +req.user.id;
 			const resumeId = +req.params.id;
-			const { userId, title, bio } = req.body;
+			const { title, bio } = req.body;
 			const data = await this.resumeService.updateResume(
 				resumeId,
 				userId,
@@ -71,7 +72,7 @@ class ResumeController {
 				data,
 			});
 		} catch (error) {
-			res.json({ error });
+			next(error);
 		}
 	};
 
@@ -87,7 +88,7 @@ class ResumeController {
 				message: MESSAGES.RESUMES.DELETE.SUCCEED,
 			});
 		} catch (error) {
-			res.json({ error });
+			next(error);
 		}
 	};
 
@@ -107,7 +108,7 @@ class ResumeController {
 				data,
 			});
 		} catch (error) {
-			res.json({ error });
+			next(error);
 		}
 	};
 
@@ -122,7 +123,7 @@ class ResumeController {
 				data,
 			});
 		} catch (error) {
-			res.json({ error });
+			next(error);
 		}
 	};
 }
