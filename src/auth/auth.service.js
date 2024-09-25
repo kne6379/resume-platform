@@ -1,5 +1,6 @@
 import { HttpError } from "../error/http-error.js";
 import { MESSAGES } from "../constants/message.constants.js";
+import { hashRounds } from "../constants/env.constants.js";
 import bcrypt from "bcrypt";
 
 class AuthService {
@@ -20,11 +21,9 @@ class AuthService {
 
     // 패스워드와 패스워드 확인이 같지 않을 경우 예외 처리
     if (password !== passwordConfirm) {
-      throw new HttpError.BadRequest(
-        MESSAGES.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD
-      );
+      throw new HttpError.BadRequest(MESSAGES.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD);
     }
-    const hashRounds = +process.env.HASH_ROUNDS;
+
     const hashedPassword = await bcrypt.hash(password, hashRounds);
     const user = await this.prisma.user.create({
       data: {
@@ -33,8 +32,9 @@ class AuthService {
         name,
         profileUrl,
       },
+      omit: { password: true },
     });
-    user.password = undefined;
+
     return user;
   }
 
@@ -54,15 +54,13 @@ class AuthService {
 
     // 비밀번호가 같지 않을 경우 예외 처리
     if (!isMatchedPassword) {
-      throw new HttpError.BadRequest(
-        MESSAGES.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD
-      );
+      throw new HttpError.BadRequest(MESSAGES.AUTH.COMMON.PASSWORD.INVALID);
     }
 
     return user.id;
   }
 
-  // 해당 이메일이 존재하는지 검사
+  // 해당 이메일이 존재하는지 조회
   async findUserByEmail(email) {
     return await this.prisma.user.findUnique({
       where: {
