@@ -17,28 +17,28 @@ resumeRouter.post("/", authenticateMiddleware, resumeController.createResume);
 resumeRouter.get("/", authenticateMiddleware, resumeController.getResumes);
 
 // 이력서 상세 조회
-resumeRouter.get("/:id", resumeController.getResumeById);
+resumeRouter.get("/:id", authenticateMiddleware, resumeController.getResumeById);
 
 // 이력서 수정
-resumeRouter.patch("/:id", resumeController.updateResume);
+resumeRouter.patch("/:id", authenticateMiddleware, resumeController.updateResume);
 
 // 이력서 삭제
-resumeRouter.delete("/:id", resumeController.deleteResume);
+resumeRouter.delete("/:id", authenticateMiddleware, resumeController.deleteResume);
 
 // 이력서 상태 변경
 resumeRouter.patch(
-  "/:id/status",
-  authenticateMiddleware,
-  authorizationMiddleware(["RECRUITER"]),
-  resumeController.updateResumeStatus
+	"/:id/status",
+	authenticateMiddleware,
+	authorizationMiddleware(["RECRUITER"]),
+	resumeController.updateResumeStatus
 );
 
 // 이력서 상태 변경 로그 조회
 resumeRouter.get(
-  "/:id/logs",
-  authenticateMiddleware,
-  authorizationMiddleware(["RECRUITER"]),
-  resumeController.getResumeStatusLogs
+	"/:id/logs",
+	authenticateMiddleware,
+	authorizationMiddleware(["RECRUITER"]),
+	resumeController.getResumeStatusLogs
 );
 
 export { resumeRouter };
