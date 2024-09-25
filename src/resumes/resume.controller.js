@@ -1,6 +1,6 @@
 import { HTTP_STATUS } from "../constants/http-status.constants.js";
 import { MESSAGES } from "../constants/message.constants.js";
-import { sucessResponse } from "../utils/response-helper.js";
+import { successResponse } from "../utils/response-helper.js";
 
 class ResumeController {
 	constructor(resumeService) {
@@ -8,11 +8,11 @@ class ResumeController {
 	}
 	createResume = async (req, res, next) => {
 		try {
-			const userId = +req.user.id;
+			const userId = req.user.id;
 			const { title, bio } = req.body;
 			const data = await this.resumeService.createResume(userId, title, bio);
 
-			return sucessResponse({
+			return successResponse({
 				res,
 				status: HTTP_STATUS.CREATED,
 				message: MESSAGES.RESUMES.CREATED.SUCCEED,
@@ -25,10 +25,10 @@ class ResumeController {
 
 	getResumes = async (req, res, next) => {
 		try {
-			const userId = +req.user.id;
+			const userId = req.user.id;
 			const data = await this.resumeService.getResumes(userId);
 
-			return sucessResponse({
+			return successResponse({
 				res,
 				message: MESSAGES.RESUMES.READ_LIST.SUCCEED,
 				data,
@@ -40,11 +40,11 @@ class ResumeController {
 
 	getResumeById = async (req, res, next) => {
 		try {
-			const userId = +req.user.id;
+			const userId = req.user.id;
 			const resumeId = +req.params.id;
 			const data = await this.resumeService.getResumeById(resumeId, userId);
 
-			return sucessResponse({
+			return successResponse({
 				res,
 				message: MESSAGES.RESUMES.READ_DETAIL.SUCCEED,
 				data,
@@ -56,7 +56,7 @@ class ResumeController {
 
 	updateResume = async (req, res, next) => {
 		try {
-			const userId = +req.user.id;
+			const userId = req.user.id;
 			const resumeId = +req.params.id;
 			const { title, bio } = req.body;
 			const data = await this.resumeService.updateResume(
@@ -66,7 +66,7 @@ class ResumeController {
 				bio
 			);
 
-			return sucessResponse({
+			return successResponse({
 				res,
 				message: MESSAGES.RESUMES.UPDATE.SUCCEED,
 				data,
@@ -79,11 +79,11 @@ class ResumeController {
 	deleteResume = async (req, res, next) => {
 		try {
 			const resumeId = +req.params.id;
-			const userId = +req.user.id;
+			const userId = req.user.id;
 
 			await this.resumeService.deleteResume(resumeId, userId);
 
-			return sucessResponse({
+			return successResponse({
 				res,
 				message: MESSAGES.RESUMES.DELETE.SUCCEED,
 			});
@@ -102,9 +102,9 @@ class ResumeController {
 				resumeId,
 				newStatus
 			);
-			return sucessResponse({
+			return successResponse({
 				res,
-				message: MESSAGES.RESUMES.UPDATE_STATUS_LOG,
+				message: MESSAGES.RESUMES.LOGGED_STATUS_CHANGE,
 				data,
 			});
 		} catch (error) {
@@ -117,7 +117,7 @@ class ResumeController {
 			const resumeId = +req.params.id;
 			const data = await this.resumeService.getResumeStatusLogs(resumeId);
 
-			return sucessResponse({
+			return successResponse({
 				res,
 				message: MESSAGES.RESUMES.READ_STATUS_LOGS,
 				data,

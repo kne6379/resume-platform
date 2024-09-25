@@ -77,7 +77,7 @@ const MESSAGES = {
 		DELETE: {
 			SUCCEED: "이력서 삭제에 성공했습니다.",
 		},
-		UPDATE_STATUS_LOG: {
+		LOG_STATUS_UPDATE: {
 			SUCCEED: "이력서 상태 변경 로그가 기록되었습니다.",
 		},
 		COMMON: {
