@@ -1,7 +1,7 @@
 import { MESSAGES } from "../constants/message.constants.js";
 import { HttpError } from "../error/http-error.js";
 
-const authorizationMiddleware = (roles) => {
+function authorizationMiddleware(roles) {
   return (req, res, next) => {
     try {
       const user = req.user;
@@ -12,9 +12,9 @@ const authorizationMiddleware = (roles) => {
 
       next();
     } catch (error) {
-      res.json({ error });
+      next(error);
     }
   };
-};
+}
 
 export { authorizationMiddleware };

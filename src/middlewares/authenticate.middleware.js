@@ -19,7 +19,7 @@ async function authenticateMiddleware(req, res, next) {
     req.user = user;
     next();
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    next(error);
   }
 }
 

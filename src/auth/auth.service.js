@@ -11,11 +11,7 @@ class AuthService {
     const { email, password, passwordConfirm, name, profileUrl } = userInfo;
 
     // 이메일 중복 조회
-    const existedEmail = await this.prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+    const existedEmail = await this.findUserByEmail(email);
 
     // 중복일 경우 예외 처리
     if (existedEmail) {
@@ -47,11 +43,7 @@ class AuthService {
     const { email, password } = userInfo;
 
     // 이메일에 해당하는 가입 정보가 있는지 조회
-    const user = await this.prisma.user.findUnique({
-      where: {
-        email: email,
-      },
-    });
+    const user = await this.findUserByEmail(email);
 
     if (!user) {
       throw new HttpError.NotFound(MESSAGES.USERS.NOT_FOUND);
@@ -68,6 +60,15 @@ class AuthService {
     }
 
     return user.id;
+  }
+
+  // 해당 이메일이 존재하는지 검사
+  async findUserByEmail(email) {
+    return await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
   }
 }
 
