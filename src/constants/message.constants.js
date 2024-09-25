@@ -1,7 +1,4 @@
-import {
-  MIN_PASSWORD_LENGTH,
-  MAX_PASSWORD_LENGTH,
-} from "../constants/auth.constants.js";
+import { MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH } from "../constants/auth.constants.js";
 
 const MESSAGES = {
   AUTH: {
@@ -26,10 +23,14 @@ const MESSAGES = {
       },
       NAME: {
         REQURIED: "이름을 입력해 주세요.",
+        MIN_LENGTH: "이름은 최소 2자리 이상어야 합니다.",
       },
       NICKNAME: {
         DUPLICATED: "이미 존재하는 닉네임입니다.",
         SUCCEED: "사용 가능한 닉네임입니다.",
+      },
+      PROFILE_URL: {
+        REQUIRED: "프로필 URL을 입력해주세요.",
       },
       UNAUTHORIZED: "인증 정보가 유효하지 않습니다.",
       FORBIDDEN: "접근 권한이 없습니다.",
