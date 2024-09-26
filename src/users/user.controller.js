@@ -1,6 +1,5 @@
-import { HTTP_STATUS } from "../constants/http-status.constants.js";
-import { MESSAGES } from "../constants/message.constants.js";
-import { successResponse } from "../utils/response-helper.js";
+import { MESSAGES } from '../constants/message.constants.js';
+import { successResponse } from '../utils/response-helper.js';
 class UserController {
   constructor(userService) {
     this.userService = userService;
@@ -40,23 +39,17 @@ class UserController {
     }
   };
 
-  // 패스워드 수정
+  // 패스워드 수정, newPasswordConfirm = 비밀번호 확인
   updatePassword = async (req, res, next) => {
     try {
       const id = req.user.id;
-      const { password, newPassword, newPasswordConfirm } = req.body;
+      const { password, newPassword } = req.body;
 
-      const data = await this.userService.updatePassword(
-        id,
-        password,
-        newPassword,
-        newPasswordConfirm
-      );
+      await this.userService.updatePassword(id, password, newPassword);
 
       return successResponse({
         res,
         message: MESSAGES.USERS.UPDATE_PASSWORD.SUCCEED,
-        data,
       });
     } catch (error) {
       next(error);

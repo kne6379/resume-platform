@@ -1,7 +1,7 @@
-import { MESSAGES } from "../constants/message.constants.js";
-import { HttpError } from "../error/http-error.js";
-import { hashRounds } from "../constants/env.constants.js";
-import bcrypt from "bcrypt";
+import { MESSAGES } from '../constants/message.constants.js';
+import { HttpError } from '../error/http-error.js';
+import { hashRounds } from '../constants/env.constants.js';
+import bcrypt from 'bcrypt';
 
 class UserService {
   constructor(prisma) {
@@ -39,7 +39,7 @@ class UserService {
 
   // 패스워드 수정
 
-  async updatePassword(id, password, newPassword, newPasswordConfirm) {
+  async updatePassword(id, password, newPassword) {
     // 유저 조회
     const user = await this.findUserById(id, false);
 
@@ -47,9 +47,7 @@ class UserService {
     const isMatchedPassword = await bcrypt.compare(password, user.password);
 
     if (!isMatchedPassword) {
-      throw new HttpError.BadRequest(
-        MESSAGES.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD
-      );
+      throw new HttpError.BadRequest(MESSAGES.AUTH.COMMON.PASSWORD.INVALID);
     }
 
     // 변경될 패스워드 만들기
@@ -78,7 +76,7 @@ class UserService {
     });
 
     if (!user) {
-      throw new HttpError.NotFound("존재하지 않는 유저입니다.");
+      throw new HttpError.NotFound('존재하지 않는 유저입니다.');
     }
     return user;
   }
