@@ -6,8 +6,9 @@ import { authenticateMiddleware } from "../middlewares/authenticate.middleware.j
 import { updatePasswordValidator } from "../middlewares/validators/update-password-validator.middleware.js";
 import { AuthService } from "../auth/auth.service.js";
 
+const authService = new AuthService();
 const userRouter = express.Router();
-const userService = new UserService(prisma, AuthService);
+const userService = new UserService(prisma, authService);
 const userController = new UserController(userService);
 
 userRouter.get("/me", authenticateMiddleware, userController.getMe);

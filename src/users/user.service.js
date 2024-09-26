@@ -45,11 +45,8 @@ class UserService {
 		// 유저 조회
 		const user = await this.findUserById(id, false);
 
-		// 클래스 인스턴스화
-		const authService = new this.authService();
-
 		// 입력한 비밀번호가 기존 비밀번호와 같은지 비교
-		await authService.MatchedPassword(password, user.password);
+		await this.authService.MatchedPassword(password, user.password);
 
 		// 변경될 패스워드 만들기
 		const newHashedPassword = await bcrypt.hash(newPassword, hashRounds);
