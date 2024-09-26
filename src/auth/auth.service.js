@@ -48,7 +48,7 @@ class AuthService {
 		if (!user) {
 			throw new HttpError.NotFound(MESSAGES.USERS.NOT_FOUND);
 		}
-		// 입력한 두 비밀번호가 같은지 검증
+		// 입력한 비밀번호가 기존 비밀번호와 같은지 비교
 		await this.MatchedPassword(password, user.password);
 
 		return user.id;
@@ -63,7 +63,7 @@ class AuthService {
 		});
 	}
 
-	// 입력한 두 비밀번호가 같은지 검증
+	// 입력한 비밀번호가 기존 비밀번호와 같은지 비교
 	async MatchedPassword(password, userPassword) {
 		const isMatchedPassword = await bcrypt.compare(password, userPassword);
 
