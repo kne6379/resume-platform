@@ -4,82 +4,84 @@ import { hashRounds } from '../constants/env.constants.js';
 import bcrypt from 'bcrypt';
 
 class UserService {
-  constructor(prisma) {
-    this.prisma = prisma;
-  }
+	constructor(prisma, authService) {
+		this.prisma = prisma;
+		this.authService = authService;
+	}
 
-  // 내 정보 조회
+	// 내 정보 조회
 
-  async getMe(id) {
-    // 유저 조회
-    const user = await this.findUserById(id);
-    return user;
-  }
+	async getMe(id) {
+		// 유저 조회
+		const user = await this.findUserById(id);
+		return user;
+	}
 
-  // 내 정보 수정
-  async updateMe(id, name, profileUrl) {
-    // 유저 조회
-    await this.findUserById(id);
+	// 내 정보 수정
+	async updateMe(id, name, profileUrl) {
+		// 유저 조회
+		await this.findUserById(id);
 
-    const updatedUser = await this.prisma.user.update({
-      where: {
-        id,
-      },
-      data: {
-        name,
-        profileUrl,
-      },
-      omit: {
-        password: true,
-      },
-    });
+		const updatedUser = await this.prisma.user.update({
+			where: {
+				id,
+			},
+			data: {
+				name,
+				profileUrl,
+			},
+			omit: {
+				password: true,
+			},
+		});
 
-    return updatedUser;
-  }
+		return updatedUser;
+	}
 
-  // 패스워드 수정
+	// 패스워드 수정
 
-  async updatePassword(id, password, newPassword) {
-    // 유저 조회
-    const user = await this.findUserById(id, false);
+	async updatePassword(id, password, newPassword) {
 
-    // 현재 입력한 패스워드가 맞는지 확인
-    const isMatchedPassword = await bcrypt.compare(password, user.password);
+		// 유저 조회
+		const user = await this.findUserById(id, false);
 
-    if (!isMatchedPassword) {
-      throw new HttpError.BadRequest(MESSAGES.AUTH.COMMON.PASSWORD.INVALID);
-    }
+		// 클래스 인스턴스화
+		const authService = new this.authService();
 
-    // 변경될 패스워드 만들기
-    const newHashedPassword = await bcrypt.hash(newPassword, hashRounds);
+		// 입력한 두 비밀번호가 같은지 검증
+		await authService.MatchedPassword(password, user.password);
 
-    // 유저의 패스워드 변경
-    await this.prisma.user.update({
-      where: {
-        id,
-      },
-      data: {
-        password: newHashedPassword,
-      },
-    });
 
-    return true;
-  }
+		// 변경될 패스워드 만들기
+		const newHashedPassword = await bcrypt.hash(newPassword, hashRounds);
 
-  // 유저 조회
-  async findUserById(id, includePassword = true) {
-    const user = await this.prisma.user.findUnique({
-      omit: { password: includePassword },
-      where: {
-        id,
-      },
-    });
+		// 유저의 패스워드 변경
+		await this.prisma.user.update({
+			where: {
+				id,
+			},
+			data: {
+				password: newHashedPassword,
+			},
+		});
 
-    if (!user) {
-      throw new HttpError.NotFound('존재하지 않는 유저입니다.');
-    }
-    return user;
-  }
+		return true;
+	}
+
+	// 유저 조회
+	async findUserById(id, includePassword = true) {
+		const user = await this.prisma.user.findUnique({
+			omit: { password: includePassword },
+			where: {
+				id,
+			},
+		});
+
+		if (!user) {
+			throw new HttpError.NotFound('존재하지 않는 유저입니다.');
+		}
+		return user;
+	}
 }
 
 export { UserService };

@@ -4,9 +4,10 @@ import { prisma } from "../configs/prisma-client.js";
 import { UserController } from "./user.controller.js";
 import { authenticateMiddleware } from "../middlewares/authenticate.middleware.js";
 import { updatePasswordValidator } from "../middlewares/validators/update-password-validator.middleware.js";
+import { AuthService } from "../auth/auth.service.js";
 
 const userRouter = express.Router();
-const userService = new UserService(prisma);
+const userService = new UserService(prisma, AuthService);
 const userController = new UserController(userService);
 
 userRouter.get("/me", authenticateMiddleware, userController.getMe);
