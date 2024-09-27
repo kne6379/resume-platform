@@ -1,7 +1,7 @@
 import { HttpError } from "../error/http-error.js";
 import { MESSAGES } from "../constants/message.constants.js";
 import { hashRounds } from "../constants/env.constants.js";
-import bcrypt from "bcrypt";
+import { isMatchedPassword, hash } from "../utils/common-helpers.js";
 
 class AuthService {
   constructor(prisma) {
@@ -24,7 +24,7 @@ class AuthService {
       throw new HttpError.BadRequest(MESSAGES.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD);
     }
 
-    const hashedPassword = await bcrypt.hash(password, hashRounds);
+    const hashedPassword = await hash(password, hashRounds);
     const user = await this.prisma.user.create({
       data: {
         email,
@@ -48,14 +48,8 @@ class AuthService {
     if (!user) {
       throw new HttpError.NotFound(MESSAGES.USERS.NOT_FOUND);
     }
-
-    // 입력한 평문 비밀번호와 암호화된 user의 비밀번호가 같은지 비교
-    const isMatchedPassword = await bcrypt.compare(password, user.password);
-
-    // 비밀번호가 같지 않을 경우 예외 처리
-    if (!isMatchedPassword) {
-      throw new HttpError.BadRequest(MESSAGES.AUTH.COMMON.PASSWORD.INVALID);
-    }
+    // 입력한 비밀번호가 기존 비밀번호와 같은지 비교
+    await isMatchedPassword(password, user.password);
 
     return user.id;
   }

@@ -1,7 +1,7 @@
-import { MESSAGES } from '../constants/message.constants.js';
-import { HttpError } from '../error/http-error.js';
-import { hashRounds } from '../constants/env.constants.js';
-import bcrypt from 'bcrypt';
+import { MESSAGES } from "../constants/message.constants.js";
+import { HttpError } from "../error/http-error.js";
+import { hashRounds } from "../constants/env.constants.js";
+import { isMatchedPassword, hash } from "../utils/common-helpers.js";
 
 class UserService {
   constructor(prisma) {
@@ -9,7 +9,6 @@ class UserService {
   }
 
   // 내 정보 조회
-
   async getMe(id) {
     // 유저 조회
     const user = await this.findUserById(id);
@@ -38,20 +37,15 @@ class UserService {
   }
 
   // 패스워드 수정
-
   async updatePassword(id, password, newPassword) {
     // 유저 조회
     const user = await this.findUserById(id, false);
 
-    // 현재 입력한 패스워드가 맞는지 확인
-    const isMatchedPassword = await bcrypt.compare(password, user.password);
-
-    if (!isMatchedPassword) {
-      throw new HttpError.BadRequest(MESSAGES.AUTH.COMMON.PASSWORD.INVALID);
-    }
+    // 입력한 비밀번호가 기존 비밀번호와 같은지 비교
+    await isMatchedPassword(password, user.password);
 
     // 변경될 패스워드 만들기
-    const newHashedPassword = await bcrypt.hash(newPassword, hashRounds);
+    const newHashedPassword = await hash(newPassword, hashRounds);
 
     // 유저의 패스워드 변경
     await this.prisma.user.update({
@@ -76,7 +70,7 @@ class UserService {
     });
 
     if (!user) {
-      throw new HttpError.NotFound('존재하지 않는 유저입니다.');
+      throw new HttpError.NotFound(MESSAGES.USERS.NOT_FOUND);
     }
     return user;
   }
