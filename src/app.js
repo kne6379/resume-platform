@@ -4,6 +4,7 @@ import { apiRouter } from "./router.js";
 import expressSession from "express-session";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import { sessionConfig } from "./configs/session.config.js";
+import { redisStore } from "./configs/redis.config.js";
 
 const app = express(); // express 생성
 const SERVER_PORT = process.env.SERVER_PORT; // 환경 변수에서 포트 번호 가져오기
@@ -12,7 +13,7 @@ const SERVER_PORT = process.env.SERVER_PORT; // 환경 변수에서 포트 번�
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(expressSession(sessionConfig));
+app.use(expressSession({ ...sessionConfig, store: redisStore }));
 
 // Health Check
 app.get("/health-check", (req, res) => {
