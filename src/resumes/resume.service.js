@@ -13,7 +13,7 @@ class ResumeService {
     });
   };
 
-  getResumes = async (userId) => {
+  getResumes = async userId => {
     return await this.prisma.resume.findMany({
       where: { userId },
       select: { id: true, title: true, updatedAt: true },
@@ -45,7 +45,7 @@ class ResumeService {
   };
 
   updateResumeStatus = async (modifier, resumeId, newStatus) => {
-    await this.prisma.$transaction(async (tx) => {
+    await this.prisma.$transaction(async tx => {
       const resume = await tx.resume.findUnique({ where: { id: resumeId } });
 
       if (!resume) {
@@ -65,7 +65,7 @@ class ResumeService {
     });
   };
 
-  getResumeStatusLogs = async (resumeId) => {
+  getResumeStatusLogs = async resumeId => {
     const data = await this.prisma.resumeHistories.findMany({
       where: { resumeId },
     });
