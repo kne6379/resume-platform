@@ -1,10 +1,10 @@
 import { createClient } from "redis";
-import "dotenv/config";
 import RedisStore from "connect-redis";
+import { redisHost, redisPassword, redisPort, redisUserName } from "../constants/env.constants.js";
 
 // 레디스 설정
 const redisClient = createClient({
-	url: `redis://${process.env.REDIS_USERNAME}:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
+	url: `redis://${redisUserName}:${redisPassword}@${redisHost}:${redisPort}`,
 });
 redisClient.connect().catch(console.error);
 
@@ -12,4 +12,4 @@ const redisStore = new RedisStore({
 	client: redisClient
 });
 
-export { redisStore };
+export { redisClient, redisStore };
