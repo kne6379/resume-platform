@@ -1,14 +1,23 @@
-import winston from "winston";
+import { logger } from "../configs/logger.config.js";
 
-const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console({
-      level: "info",
-    }),
-    new winston.transports.Console({
-      level: "error",
-    }),
-  ],
-});
+async function loggingMiddleware(req, res, next) {
+  try {
+    const start = new Date().getTime();
 
-export { logger };
+    res.on("finish", () => {
+      const duration = new Date().getTime() - start;
+      logger.info("message", {
+        method: req.method,
+        url: req.url,
+        status: res.statusCode,
+        responseTime: duration,
+      });
+    });
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+export { loggingMiddleware };

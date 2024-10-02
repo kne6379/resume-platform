@@ -50,7 +50,6 @@ class AuthService {
     }
     // 입력한 비밀번호가 기존 비밀번호와 같은지 비교
     await isMatchedPassword(password, user.password);
-
     return user.id;
   }
 
