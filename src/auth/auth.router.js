@@ -4,6 +4,7 @@ import { AuthService } from "./auth.service.js";
 import { prisma } from "../configs/prisma-client.js";
 import { signUpValidator } from "../middlewares/validators/sign-up-validator.middleware.js";
 import { signInValidator } from "../middlewares/validators/sign-in-validator.middleware.js";
+import { logger } from "../configs/logger.config.js";
 
 const authRouter = express.Router();
 const authService = new AuthService(prisma);

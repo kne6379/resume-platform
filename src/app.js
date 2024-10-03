@@ -4,6 +4,7 @@ import { apiRouter } from "./router.js";
 import expressSession from "express-session";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import { sessionConfig } from "./configs/session.config.js";
+import { loggingMiddleware } from "./middlewares/logger.middleware.js";
 import { redisStore } from "./configs/redis.config.js";
 
 const app = express(); // express 생성
@@ -19,6 +20,8 @@ app.use(expressSession({ ...sessionConfig, store: redisStore }));
 app.get("/health-check", (req, res) => {
   res.status(200).send("OK");
 });
+
+app.use(loggingMiddleware);
 
 app.use("/", apiRouter);
 app.use(errorMiddleware);
