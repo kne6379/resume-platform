@@ -1,6 +1,6 @@
 import { MESSAGES } from "../constants/message.constants.js";
 import { HttpError } from "../error/http-error.js";
-import { hashRounds } from "../constants/env.constants.js";
+import { HASH_ROUNDS } from "../constants/env.constants.js";
 import { isMatchedPassword, hash } from "../utils/common-helpers.js";
 
 class UserService {
@@ -45,7 +45,7 @@ class UserService {
     await isMatchedPassword(password, user.password);
 
     // 변경될 패스워드 만들기
-    const newHashedPassword = await hash(newPassword, hashRounds);
+    const newHashedPassword = await hash(newPassword, HASH_ROUNDS);
 
     // 유저의 패스워드 변경
     await this.prisma.user.update({
