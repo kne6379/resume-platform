@@ -1,7 +1,10 @@
-const hashRounds = +process.env.HASH_ROUNDS;
-const redisHost = process.env.REDIS_HOST;
-const redisPort = process.env.REDIS_PORT;
-const redisUserName = process.env.REDIS_USERNAME;
-const redisPassword = process.env.REDIS_PASSWORD;
+const HASH_ROUNDS = +process.env.HASH_ROUNDS;
 
-export { hashRounds, redisHost, redisPort, redisUserName, redisPassword };
+const NODE_ENV = process.env.NODE_ENV;
+
+const REDIS_HOST = process.env.REDIS_HOST;
+const REDIS_PORT = process.env.REDIS_PORT;
+const REDIS_USERNAME = process.env.REDIS_USERNAME;
+const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
+
+export { HASH_ROUNDS, REDIS_HOST, REDIS_PORT, REDIS_USERNAME, REDIS_PASSWORD, NODE_ENV };

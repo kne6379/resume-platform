@@ -1,6 +1,6 @@
 import { HttpError } from "../error/http-error.js";
 import { MESSAGES } from "../constants/message.constants.js";
-import { hashRounds } from "../constants/env.constants.js";
+import { HASH_ROUNDS } from "../constants/env.constants.js";
 import { isMatchedPassword, hash } from "../utils/common-helpers.js";
 
 class AuthService {
@@ -24,7 +24,7 @@ class AuthService {
       throw new HttpError.BadRequest(MESSAGES.AUTH.COMMON.PASSWORD_CONFIRM.NOT_MACHTED_WITH_PASSWORD);
     }
 
-    const hashedPassword = await hash(password, hashRounds);
+    const hashedPassword = await hash(password, HASH_ROUNDS);
     const user = await this.prisma.user.create({
       data: {
         email,
