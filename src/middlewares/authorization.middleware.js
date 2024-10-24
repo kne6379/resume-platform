@@ -9,7 +9,6 @@ function authorizationMiddleware(roles) {
       if (!hasPermission) {
         throw new HttpError.Forbidden(MESSAGES.AUTH.COMMON.FORBIDDEN);
       }
-
       next();
     } catch (error) {
       next(error);

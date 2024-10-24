@@ -8,8 +8,8 @@ class AuthService {
     this.prisma = prisma;
   }
   // 회원가입
-  async signUp(userInfo) {
-    const { email, password, passwordConfirm, name, profileUrl } = userInfo;
+  async signUp(userInfo, profileUrl) {
+    const { email, password, passwordConfirm, name } = userInfo;
 
     // 이메일 중복 조회
     const existedEmail = await this.findUserByEmail(email);
