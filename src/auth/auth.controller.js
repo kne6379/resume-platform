@@ -10,8 +10,9 @@ class AuthController {
   signUp = async (req, res, next) => {
     try {
       const userInfo = req.body;
+      const profileUrl = req.file.location;
 
-      const data = await this.authService.signUp(userInfo);
+      const data = await this.authService.signUp(userInfo, profileUrl);
 
       return successResponse({
         res,
