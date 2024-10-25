@@ -9,10 +9,8 @@ class AuthController {
   // 회원가입
   signUp = async (req, res, next) => {
     try {
-      const userInfo = req.body;
-      const profileUrl = req.file.location;
-
-      const data = await this.authService.signUp(userInfo, profileUrl);
+      const userInfo = { ...req.body, profileUrl: req.file.location };
+      const data = await this.authService.signUp(userInfo);
 
       return successResponse({
         res,
