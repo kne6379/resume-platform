@@ -27,18 +27,18 @@ resumeRouter.delete("/:id", authenticateMiddleware, resumeController.deleteResum
 
 // 이력서 상태 변경
 resumeRouter.patch(
-	"/:id/status",
-	authenticateMiddleware,
-	authorizationMiddleware(["RECRUITER"]),
-	resumeController.updateResumeStatus
+  "/:id/status",
+  authenticateMiddleware,
+  authorizationMiddleware(["RECRUITER"]),
+  resumeController.updateResumeStatus
 );
 
 // 이력서 상태 변경 로그 조회
 resumeRouter.get(
-	"/:id/logs",
-	authenticateMiddleware,
-	authorizationMiddleware(["RECRUITER"]),
-	resumeController.getResumeStatusLogs
+  "/:id/logs",
+  authenticateMiddleware,
+  authorizationMiddleware(["RECRUITER"]),
+  resumeController.getResumeStatusLogs
 );
 
 export { resumeRouter };
